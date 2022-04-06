@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <TextView
+                    android:text="author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/adviceAuthor" android:layout_weight="2"/>
+            <TextView
+                    android:text="category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/adviceCategory" android:layout_weight="2"/>
+            <TextView
+                    android:text="content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/adviceContent" android:layout_weight="2"/>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

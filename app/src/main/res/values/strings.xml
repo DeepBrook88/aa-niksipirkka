@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NiksiPirkka</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_1">+</string>
+    <string name="button_2">Add Advice</string>
+    <string name="mainTitleText">Niksi Pirkka</string>
+    <string name="fab_content_desc">Add new advice</string>
 </resources>
