@@ -2,21 +2,10 @@ package ax.ha.it.aa.niksipirkka
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import ax.ha.it.aa.niksipirkka.databinding.SingleAdviceBinding
 
-
 class AdviceAdapter(private val advices:List<Advice>): RecyclerView.Adapter<AdviceAdapter.AdapterViewHolder>() {
-    /*private var viewModel : MyViewModel? = null
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        if (viewModel == null) {
-            viewModel = ViewModelProvider((recyclerView.context as ViewModelStoreOwner))[MyViewModel::class.java]
-        }
-    }*/
-
     // A ViewHolder represents an item view within the RecyclerView
     class AdapterViewHolder(binding: SingleAdviceBinding) : RecyclerView.ViewHolder(binding.getRoot()) {
         // The binding is used in Adapter.onBindViewHolder to access the
@@ -37,7 +26,6 @@ class AdviceAdapter(private val advices:List<Advice>): RecyclerView.Adapter<Advi
     }
 
     override fun onBindViewHolder(holder: AdapterViewHolder, position: Int) {
-
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val advice : Advice = advices[position]

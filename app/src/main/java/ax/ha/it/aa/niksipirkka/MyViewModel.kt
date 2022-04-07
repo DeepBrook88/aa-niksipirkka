@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
 class MyViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
-    private var advices: MutableLiveData<List<Advice>>
+    private val advices: MutableLiveData<List<Advice>>
 
     init {
         if (savedStateHandle.contains("advices")) {
