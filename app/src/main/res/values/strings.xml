@@ -6,4 +6,9 @@
     <string name="button_2">Add Advice</string>
     <string name="mainTitleText">Niksi Pirkka</string>
     <string name="fab_content_desc">Add new advice</string>
+    <string-array name="categories">
+        <item>Lifestyle</item>
+        <item>Technology</item>
+        <item>Miscellaneous</item>
+    </string-array>
 </resources>

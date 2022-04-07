@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import ax.ha.it.aa.niksipirkka.databinding.SingleAdviceBinding
 
 
-class AdviceAdapter: RecyclerView.Adapter<AdviceAdapter.AdapterViewHolder>() {
-    private var viewModel : MyViewModel? = null
+class AdviceAdapter(private val advices:List<Advice>): RecyclerView.Adapter<AdviceAdapter.AdapterViewHolder>() {
+    /*private var viewModel : MyViewModel? = null
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         if (viewModel == null) {
             viewModel = ViewModelProvider((recyclerView.context as ViewModelStoreOwner))[MyViewModel::class.java]
         }
-    }
+    }*/
 
     // A ViewHolder represents an item view within the RecyclerView
     class AdapterViewHolder(binding: SingleAdviceBinding) : RecyclerView.ViewHolder(binding.getRoot()) {
@@ -40,13 +40,13 @@ class AdviceAdapter: RecyclerView.Adapter<AdviceAdapter.AdapterViewHolder>() {
 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        val advice : Advice = viewModel!!.getAdvices().value!![position]
+        val advice : Advice = advices[position]
         holder.binding.adviceAuthor.text = advice.getAuthor()
         holder.binding.adviceCategory.text = advice.getCategory()
         holder.binding.adviceContent.text = advice.getContent()
     }
 
     override fun getItemCount(): Int {
-        return viewModel!!.getAdvices().value!!.size
+        return advices.size
     }
 }

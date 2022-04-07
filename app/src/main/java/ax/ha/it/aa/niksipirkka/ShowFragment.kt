@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,17 +45,17 @@ class ShowFragment : Fragment() {
     ): View {
         binding = FragmentShowBinding.inflate(inflater, container, false)
         val recyclerView : RecyclerView = binding.recyclerView
-        recyclerViewAdapter = AdviceAdapter()
-        recyclerView.adapter = recyclerViewAdapter
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
 
 
         // Create a ViewModel tied to this activity
-        /*val model = ViewModelProvider(requireActivity())[MyViewModel::class.java]
+        val model = ViewModelProvider(requireActivity())[MyViewModel::class.java]
         model.getAdvices().observe(viewLifecycleOwner, Observer {
             println("test $it")
-        })*/
+            recyclerViewAdapter = AdviceAdapter(it)
+            recyclerView.adapter = recyclerViewAdapter
+        })
         // Setting up button listener in landscape mode will crash the app as
         // we have no NavHost in that layout
         if (activity!!.resources.configuration.orientation ==

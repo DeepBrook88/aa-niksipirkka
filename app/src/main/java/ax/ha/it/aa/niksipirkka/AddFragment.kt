@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -45,6 +46,15 @@ class AddFragment : Fragment() {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         setupUI(binding.root)
         val model = ViewModelProvider(requireActivity())[MyViewModel::class.java]
+
+
+        val spinnerAdapter : ArrayAdapter<String> = ArrayAdapter(
+            binding.root.context,
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.categories)
+        )
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinner.adapter = spinnerAdapter
         // Setting up button listener in landscape mode will crash the app as
         // we have no NavHost in that layout
         if (activity!!.resources.configuration.orientation ==
@@ -52,7 +62,7 @@ class AddFragment : Fragment() {
         ) {
             binding.button2.setOnClickListener { view ->
                 val content: String = binding.editTextTextPersonName.text.toString()
-                val category: String = binding.editTextTextPersonName2.text.toString()
+                val category: String = binding.spinner.selectedItem.toString()
                 model.addAdvice(Advice("test Author", content, category))
                 findNavController(view).navigate(
                     R.id.action_addFrag_to_showFrag
