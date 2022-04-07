@@ -61,7 +61,7 @@ class AddFragment : Fragment() {
             Configuration.ORIENTATION_PORTRAIT
         ) {
             binding.button2.setOnClickListener { view ->
-                val content: String = binding.editTextTextPersonName.text.toString()
+                val content: String = binding.contentData.text.toString()
                 val category: String = binding.spinner.selectedItem.toString()
                 model.addAdvice(Advice("test Author", content, category))
                 findNavController(view).navigate(

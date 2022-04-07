@@ -20,17 +20,17 @@
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:inputType="text"
             android:ems="10"
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/contentData"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="92dp"
-            app:layout_constraintHorizontal_bias="0.502"/>
+            app:layout_constraintHorizontal_bias="0.502" android:minHeight="48dp"/>
     <Spinner
             android:layout_width="210dp"
             android:layout_height="wrap_content" android:id="@+id/spinner"
-            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/contentData"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:minHeight="48dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
