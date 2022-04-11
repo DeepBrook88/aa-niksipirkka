@@ -3,6 +3,7 @@ package ax.ha.it.aa.niksipirkka
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import ax.ha.it.aa.niksipirkka.databinding.FragmentAddBinding
+import java.util.stream.Collectors
 
 class AddFragment : Fragment() {
     private lateinit var binding : FragmentAddBinding
@@ -25,14 +27,45 @@ class AddFragment : Fragment() {
         binding = FragmentAddBinding.inflate(inflater, container, false)
         setupUI(binding.root)
         val model = ViewModelProvider(requireActivity())[MyViewModel::class.java]
+        //val dao : CategoryDao = AdviceDatabase.getInstance(requireActivity())!!.categoryDao()
+        /*Thread{
+            dao.deleteAllCategories()
+            dao.insert(Category("Test"),Category("Test2"))
+        }.start()*/
+        model.getCategories().observe(viewLifecycleOwner) {
+            // TODO: make this compatible with API 21
+            val list: Array<String> = it.stream().map { a -> a.getCategory() }.collect(Collectors.toList()).toTypedArray()
+            val list2: Array<Category> = it.toTypedArray()
+            println(it)
+            val spinnerAdapter : ArrayAdapter<Category> = ArrayAdapter(
+                binding.root.context,
+                android.R.layout.simple_spinner_item,
+                list2
+            )
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinner.adapter = spinnerAdapter
+        }
+        /*dao.getAllCategories().observe(requireActivity()) {
 
-        val spinnerAdapter : ArrayAdapter<String> = ArrayAdapter(
-            binding.root.context,
-            android.R.layout.simple_spinner_item,
-            resources.getStringArray(R.array.categories)
-        )
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinner.adapter = spinnerAdapter
+            val list: Array<String> = it.stream().map { a -> a.getCategory() }.collect(Collectors.toList()).toTypedArray()
+            println(it)
+            val spinnerAdapter : ArrayAdapter<String> = ArrayAdapter(
+                binding.root.context,
+                android.R.layout.simple_spinner_item,
+                list
+            )
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinner.adapter = spinnerAdapter
+        }*/
+        Thread {
+            try {
+                Thread.sleep(1000)
+            } catch (ex: InterruptedException) {
+                Log.e("ROOM", "INTERRUPT")
+            }
+
+        }
+
         // Setting up button listener in landscape mode will crash the app as
         // we have no NavHost in that layout
         if (activity!!.resources.configuration.orientation ==
@@ -40,7 +73,8 @@ class AddFragment : Fragment() {
         ) {
             binding.button2.setOnClickListener { view ->
                 val content: String = binding.contentData.text.toString()
-                val category: String = binding.spinner.selectedItem.toString()
+                val cat: Category = binding.spinner.selectedItem as Category
+                val category: Int = cat.getCategoryId()
                 model.addAdvice(Advice("test Author", content, category))
                 findNavController(view).navigate(
                     R.id.action_addFrag_to_showFrag
