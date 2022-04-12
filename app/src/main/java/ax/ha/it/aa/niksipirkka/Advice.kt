@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "advices",
     foreignKeys = [ForeignKey(
@@ -16,10 +17,11 @@ class Advice(
     private var content: String,
     @ColumnInfo(name = "category_id")
     private var categoryId: Int
-) {
+) : Serializable{
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "advice_id")
     private var adviceId: Int = 0
+
     fun getAuthor() : String {
         return author
     }

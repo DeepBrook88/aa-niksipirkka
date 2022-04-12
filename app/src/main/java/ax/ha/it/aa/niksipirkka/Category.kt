@@ -7,7 +7,7 @@ import java.io.Serializable
 
 
 @Entity(tableName = "categories")
-class Category(private var category: String) {
+class Category(private var category: String): Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "category_id")
     private var categoryId: Int = 0

@@ -4,39 +4,28 @@ import android.app.Application
 import androidx.lifecycle.*
 
 class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
-    private val advices: MutableLiveData<List<AdviceWithCategory>>
-    private lateinit var categories: MutableLiveData<List<Category>>
+    private val advices: MutableLiveData<List<AdviceWithCategory>> = MutableLiveData()
+    private val categories: MutableLiveData<List<Category>> = MutableLiveData()
 
     private val catDao: CategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.categoryDao()
     private val adviceDao: AdviceDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceDao()
     private val adviceWithCategoryDao: AdviceWithCategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceWithCat()
 
-    init {
-        if (savedStateHandle.contains("advices")) {
-            advices = savedStateHandle.getLiveData("advices")
-        } else {
-            advices = MutableLiveData()
-            adviceWithCategoryDao.getAdviceWithCategoryString().observeForever{
-                val advCats: List<AdviceWithCategory> = it
-                advices.value = advCats
-                savedStateHandle.set("advices", advCats)
-            }
-        }
-        if (savedStateHandle.contains("categories")) {
-            categories = savedStateHandle.getLiveData("categories")
-        } else {
-            /*Thread{
-                catDao.deleteAllCategories()
-                catDao.insert(Category("Lifestyle"),Category("Technology"),Category("Miscellaneous"))
-            }.start()*/
+    private val adviceObserver = Observer<List<AdviceWithCategory>> {
+        advices.value = it
+    }
 
-            catDao.getAllCategories().observeForever{
-                val categoryList: List<Category> = it
-                categories = MutableLiveData()
-                categories.value = categoryList
-                savedStateHandle.set("categories", categoryList)
-            }
+    init {
+        adviceWithCategoryDao.getAdviceWithCategoryString().observeForever(adviceObserver)
+        /*Thread{
+            catDao.deleteAllCategories()
+            catDao.insert(Category("Lifestyle"),Category("Technology"),Category("Miscellaneous"))
+        }.start()*/
+
+        catDao.getAllCategories().observeForever{
+            categories.value = it
         }
+
     }
     fun getAdvices(): LiveData<List<AdviceWithCategory>> {
         return advices
@@ -45,10 +34,6 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
         Thread{
             adviceDao.insert(advice)
         }.start()
-        /*val adviceList: MutableList<Advice> = mutableListOf()
-        advices.value?.let { adviceList.addAll(it) }
-        adviceList.add(advice)
-        advices.value = adviceList*/
     }
     fun getCategories(): LiveData<List<Category>> {
         return categories
@@ -57,9 +42,10 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
         Thread{
             catDao.insert(category)
         }.start()
-        /*val categoryList: MutableList<Category> = mutableListOf()
-        categories.value?.let { categoryList.addAll(it) }
-        categoryList.add(category)
-        categories.value = categoryList*/
+    }
+
+    override fun onCleared() {
+        adviceWithCategoryDao.getAdviceWithCategoryString().removeObserver(adviceObserver)
+        super.onCleared()
     }
 }

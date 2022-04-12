@@ -6,22 +6,19 @@
     <string name="button_2">Add Advice</string>
     <string name="mainTitleText">Niksi Pirkka</string>
     <string name="fab_content_desc">Add new advice</string>
-    <string-array name="categories">
-        <item>Lifestyle</item>
-        <item>Technology</item>
-        <item>Miscellaneous</item>
-    </string-array>
+
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
+    <string name="messages_header">Settings</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="author_name">Your Name</string>
+    <string name="default_category">Default selected category</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

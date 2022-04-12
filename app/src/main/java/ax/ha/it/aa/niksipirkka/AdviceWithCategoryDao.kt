@@ -9,7 +9,7 @@ interface AdviceWithCategoryDao {
     @Query(
         "SELECT advices.author as author, advices.content as content, categories.category as category " +
         "FROM advices, categories " +
-        "WHERE advices.advice_id = categories.category_id"
+        "WHERE advices.category_id = categories.category_id"
     )
     fun getAdviceWithCategoryString(): LiveData<List<AdviceWithCategory>>
 }
