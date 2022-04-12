@@ -1,10 +1,11 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import ax.ha.it.aa.niksipirkka.entities.Category
 
 @Dao
 interface CategoryDao {

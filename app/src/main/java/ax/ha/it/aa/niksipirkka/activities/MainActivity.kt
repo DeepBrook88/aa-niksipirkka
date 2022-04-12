@@ -1,4 +1,4 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
+import ax.ha.it.aa.niksipirkka.R
 import ax.ha.it.aa.niksipirkka.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

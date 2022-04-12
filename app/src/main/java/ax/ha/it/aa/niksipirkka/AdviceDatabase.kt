@@ -4,6 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ax.ha.it.aa.niksipirkka.dao.AdviceDao
+import ax.ha.it.aa.niksipirkka.dao.AdviceWithCategoryDao
+import ax.ha.it.aa.niksipirkka.dao.CategoryDao
+import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.Category
 
 
 @Database(entities = [Advice::class, Category::class], version = 4, exportSchema = false)

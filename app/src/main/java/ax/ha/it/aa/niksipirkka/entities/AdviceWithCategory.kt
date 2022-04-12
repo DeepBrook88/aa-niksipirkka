@@ -1,4 +1,4 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.entities
 
 import java.io.Serializable
 

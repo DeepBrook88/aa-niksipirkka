@@ -1,8 +1,9 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 
 @Dao
 interface AdviceWithCategoryDao {

@@ -2,50 +2,46 @@ package ax.ha.it.aa.niksipirkka
 
 import android.app.Application
 import androidx.lifecycle.*
+import ax.ha.it.aa.niksipirkka.dao.AdviceDao
+import ax.ha.it.aa.niksipirkka.dao.AdviceWithCategoryDao
+import ax.ha.it.aa.niksipirkka.dao.CategoryDao
+import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
+import ax.ha.it.aa.niksipirkka.entities.Category
+import ax.ha.it.aa.niksipirkka.repository.NiksiPirkkaRepo
+import kotlinx.coroutines.launch
 
 class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) : AndroidViewModel(application) {
-    private val advices: MutableLiveData<List<AdviceWithCategory>> = MutableLiveData()
-    private val categories: MutableLiveData<List<Category>> = MutableLiveData()
+    private val advices: LiveData<List<AdviceWithCategory>>
+    private val categories: LiveData<List<Category>>
 
     private val catDao: CategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.categoryDao()
     private val adviceDao: AdviceDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceDao()
     private val adviceWithCategoryDao: AdviceWithCategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceWithCat()
-
-    private val adviceObserver = Observer<List<AdviceWithCategory>> {
-        advices.value = it
-    }
+    
+    private val repository: NiksiPirkkaRepo = NiksiPirkkaRepo(adviceDao,catDao,adviceWithCategoryDao)
 
     init {
-        adviceWithCategoryDao.getAdviceWithCategoryString().observeForever(adviceObserver)
-        /*Thread{
-            catDao.deleteAllCategories()
-            catDao.insert(Category("Lifestyle"),Category("Technology"),Category("Miscellaneous"))
-        }.start()*/
-
-        catDao.getAllCategories().observeForever{
-            categories.value = it
-        }
+        advices = repository.advices
+        categories = repository.categories
 
     }
     fun getAdvices(): LiveData<List<AdviceWithCategory>> {
         return advices
     }
-    fun addAdvice(advice: Advice) {
-        Thread{
-            adviceDao.insert(advice)
-        }.start()
+    fun addAdvice(advice: Advice) = viewModelScope.launch {
+        repository.insertAdvice(advice)
     }
+
     fun getCategories(): LiveData<List<Category>> {
         return categories
     }
     fun addCategory(category: Category) {
-        Thread{
-            catDao.insert(category)
-        }.start()
+        repository.insertCategory(category)
     }
 
-    override fun onCleared() {
+    /*override fun onCleared() {
         adviceWithCategoryDao.getAdviceWithCategoryString().removeObserver(adviceObserver)
         super.onCleared()
-    }
+    }*/
 }

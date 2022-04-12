@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ax.ha.it.aa.niksipirkka.databinding.SingleAdviceBinding
+import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 
 class AdviceAdapter(private val advices:List<AdviceWithCategory>): RecyclerView.Adapter<AdviceAdapter.AdapterViewHolder>() {
     // A ViewHolder represents an item view within the RecyclerView

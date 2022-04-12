@@ -1,4 +1,4 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -16,7 +16,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import androidx.preference.PreferenceManager
+import ax.ha.it.aa.niksipirkka.MyViewModel
+import ax.ha.it.aa.niksipirkka.R
 import ax.ha.it.aa.niksipirkka.databinding.FragmentAddBinding
+import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.Category
 
 class AddFragment : Fragment() {
     private lateinit var binding : FragmentAddBinding

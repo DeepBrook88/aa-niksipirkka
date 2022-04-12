@@ -1,6 +1,7 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.dao
 
 import androidx.room.*
+import ax.ha.it.aa.niksipirkka.entities.Advice
 
 @Dao
 interface AdviceDao {

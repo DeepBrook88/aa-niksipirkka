@@ -1,17 +1,19 @@
-package ax.ha.it.aa.niksipirkka
+package ax.ha.it.aa.niksipirkka.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
-import ax.ha.it.aa.niksipirkka.databinding.ActivityMainBinding
+import androidx.preference.PreferenceManager
+import ax.ha.it.aa.niksipirkka.R
+import ax.ha.it.aa.niksipirkka.databinding.SettingsActivityBinding
 
 class SettingsActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding : SettingsActivityBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.settings_activity)
-
+        binding = SettingsActivityBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        setSupportActionBar(binding.settingsToolBar)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -26,4 +28,10 @@ class SettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
 }
