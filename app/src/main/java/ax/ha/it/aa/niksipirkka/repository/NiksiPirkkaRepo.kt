@@ -21,9 +21,9 @@ class NiksiPirkkaRepo(
             adviceDao.insert(advice)
         }.start()
     }
-    fun insertCategory(category: Category) {
+    fun insertCategory(vararg category: Category?) {
         Thread{
-            categoryDao.insert(category)
+            categoryDao.insert(*category)
         }.start()
     }
 }

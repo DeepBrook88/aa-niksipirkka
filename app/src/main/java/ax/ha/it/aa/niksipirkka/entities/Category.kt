@@ -3,11 +3,12 @@ package ax.ha.it.aa.niksipirkka.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
 @Entity(tableName = "categories")
-class Category(private var category: String): Serializable {
+class Category(@SerializedName("name") private var category: String): Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "category_id")
     private var categoryId: Int = 0

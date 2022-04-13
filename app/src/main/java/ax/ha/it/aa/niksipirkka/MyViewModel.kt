@@ -36,12 +36,7 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
     fun getCategories(): LiveData<List<Category>> {
         return categories
     }
-    fun addCategory(category: Category) {
-        repository.insertCategory(category)
+    fun addCategory(vararg category: Category?) {
+        repository.insertCategory(*category)
     }
-
-    /*override fun onCleared() {
-        adviceWithCategoryDao.getAdviceWithCategoryString().removeObserver(adviceObserver)
-        super.onCleared()
-    }*/
 }
