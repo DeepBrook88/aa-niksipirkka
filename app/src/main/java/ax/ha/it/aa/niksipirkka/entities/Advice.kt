@@ -1,9 +1,6 @@
 package ax.ha.it.aa.niksipirkka.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.io.Serializable
 
 @Entity(tableName = "advices",
@@ -11,7 +8,7 @@ import java.io.Serializable
         entity = Category::class,
         childColumns = ["category_id"],
         parentColumns = ["category_id"]
-    )])
+    )], indices = [Index(value = arrayOf("category_id","content"), unique = true)])
 class Advice(
     private var author: String,
     private var content: String,

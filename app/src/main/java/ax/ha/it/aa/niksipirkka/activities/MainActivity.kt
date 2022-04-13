@@ -15,6 +15,8 @@ import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import ax.ha.it.aa.niksipirkka.MyViewModel
 import ax.ha.it.aa.niksipirkka.R
 import ax.ha.it.aa.niksipirkka.databinding.ActivityMainBinding
+import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 import ax.ha.it.aa.niksipirkka.entities.Category
 import ax.ha.it.aa.niksipirkka.services.AdviceService
 import retrofit2.Call
@@ -37,39 +39,52 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "No network!", Toast.LENGTH_SHORT).show()
         }
 
-        val call: Call<List<Category>> = getRetrofitCategoryCall()
-        call.enqueue(object: Callback<List<Category>> {
+        val catCall: Call<List<Category>> = getRetrofitCategoryCall()
+        catCall.enqueue(object: Callback<List<Category>> {
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
                 if (response.isSuccessful) {
                     val data: List<Category> = response.body()!!
-                    val prevData = model.getCategories()
-                    prevData.observeOnce(this@MainActivity) {
-                        val insert: MutableList<Category> = mutableListOf()
-                        val existing : MutableList<String> = mutableListOf()
-                        it.toTypedArray().forEach { a-> existing.add(a.getCategory())  }
-                        if (existing.isEmpty()) {
-                            insert.addAll(data)
-                        } else {
-                            data.forEach { item ->
-                                if (!existing.contains(item.getCategory())) {
-                                    insert.add(item)
-                                }
+                    model.addCategory(*data.toTypedArray())
+                } else {
+                    try {
+                        val error = response.errorBody()!!.string()
+                        println("error " + error)
+                    } catch (e: IOException) {
+                        Log.e("NIKSIPIRKKA", "Bad response: $e")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
+                Log.e("NIKSIPIRKKA", "Failure: $t")
+            }
+        })
+        val advCall: Call<List<AdviceWithCategory>> = getRetrofitAdviceCall()
+        advCall.enqueue(object: Callback<List<AdviceWithCategory>> {
+            override fun onResponse(call: Call<List<AdviceWithCategory>>, response: Response<List<AdviceWithCategory>>) {
+                if (response.isSuccessful) {
+                    val data: List<AdviceWithCategory> = response.body()!!
+                    model.getCategories().observeOnce(this@MainActivity){
+                        data.forEach { item ->
+                            val cat = it.find { a-> a.getCategory() == item.category }
+                            println("Cat: $cat")
+                            if (cat != null) {
+                                model.addAdvice(Advice(item.author, item.content, cat.getCategoryId()))
                             }
                         }
-                        model.addCategory(*insert.toTypedArray())
                     }
                 } else {
                     try {
                         val error = response.errorBody()!!.string()
                         println("error " + error)
                     } catch (e: IOException) {
-                        Log.e("RETROFITDEMO", "Bad response: $e")
+                        Log.e("NIKSIPIRKKA", "Bad response: $e")
                     }
                 }
             }
 
-            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                Log.e("RETROFITDEMO", "Failure: $t")
+            override fun onFailure(call: Call<List<AdviceWithCategory>>, t: Throwable) {
+                Log.e("NIKSIPIRKKA", "Failure: $t")
             }
         })
 
@@ -92,23 +107,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private val retrofit = Retrofit.Builder()
+            .baseUrl("https://niksipirkka.cloud-ha.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        private val service: AdviceService = retrofit.create(AdviceService::class.java)
+
         private fun isConnectedToNetwork(context: Context): Boolean {
             val connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-            var isConnected = false
-            if (connectivityManager != null) {
-                val activeNetwork = connectivityManager.activeNetworkInfo
-                isConnected = activeNetwork != null &&
-                        activeNetwork.isConnected
-            }
+            val isConnected: Boolean
+            val activeNetwork = connectivityManager.activeNetworkInfo
+            isConnected = activeNetwork != null &&
+                    activeNetwork.isConnected
             return isConnected
         }
         fun getRetrofitCategoryCall(): Call<List<Category>> {
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://niksipirkka.cloud-ha.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-            val service: AdviceService = retrofit.create(AdviceService::class.java)
             return service.loadCategories()
+        }
+        fun getRetrofitAdviceCall(): Call<List<AdviceWithCategory>> {
+            return service.loadAdvice()
         }
     }
     fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {

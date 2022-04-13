@@ -11,7 +11,7 @@ import ax.ha.it.aa.niksipirkka.entities.Advice
 import ax.ha.it.aa.niksipirkka.entities.Category
 
 
-@Database(entities = [Advice::class, Category::class], version = 5, exportSchema = false)
+@Database(entities = [Advice::class, Category::class], version = 7, exportSchema = false)
 abstract class AdviceDatabase : RoomDatabase() {
     //abstract val adviceDao: AdviceDao
     //abstract val categoryDao: CategoryDao
