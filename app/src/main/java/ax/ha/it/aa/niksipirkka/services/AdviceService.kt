@@ -1,23 +1,22 @@
 package ax.ha.it.aa.niksipirkka.services
 
 import retrofit2.Call
-import retrofit2.http.GET
 
 import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 import ax.ha.it.aa.niksipirkka.entities.Category
-import retrofit2.http.DELETE
-import retrofit2.http.POST
+import ax.ha.it.aa.niksipirkka.entities.ResponseMsg
+import retrofit2.http.*
 
 interface AdviceService {
 
-    @GET("getcategories.json")
+    @GET("getcategories")
     fun loadCategories(): Call<List<Category>>
 
-    @GET("getadvice.json")
+    @GET("getadvice")
     fun loadAdvice(): Call<List<AdviceWithCategory>>
 
-    /*@POST("addadvice")
-    fun pushAdvice(advice: AdviceWithCategory): */
+    @POST("addadvice")
+    fun pushAdvice(@Query("author") author: String, @Query("advice")content: String, @Query("category")category: String): Call<ResponseMsg>
 
     /*@DELETE("")
     fun deleteAdvice():*/

@@ -18,9 +18,16 @@ import androidx.navigation.Navigation.findNavController
 import androidx.preference.PreferenceManager
 import ax.ha.it.aa.niksipirkka.MyViewModel
 import ax.ha.it.aa.niksipirkka.R
+import ax.ha.it.aa.niksipirkka.activities.MainActivity
 import ax.ha.it.aa.niksipirkka.databinding.FragmentAddBinding
 import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 import ax.ha.it.aa.niksipirkka.entities.Category
+import ax.ha.it.aa.niksipirkka.entities.ResponseMsg
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.IOException
 
 class AddFragment : Fragment() {
     private lateinit var binding : FragmentAddBinding
@@ -64,7 +71,34 @@ class AddFragment : Fragment() {
                 val cat: Category = binding.spinner.selectedItem as Category
                 val category: Int = cat.getCategoryId()
                 val curVal : String? = sharedPreferences.getString("author_name", "Anonymous")
-                model.addAdvice(Advice(curVal!!, content, category))
+                val advice = Advice(curVal!!, content, category)
+                val pushAdvCall: Call<ResponseMsg> = MainActivity.pushRetrofitAdviceCall(advice.getAuthor(),advice.getContent(),cat.getCategory())
+                pushAdvCall.enqueue(object: Callback<ResponseMsg> {
+                    override fun onResponse(call: Call<ResponseMsg>, response: Response<ResponseMsg>) {
+                        if (response.isSuccessful) {
+                            val res: ResponseMsg = response.body()!!
+                            if (res.status == "OK") {
+                                model.addAdvice(advice)
+                                println("Succesful")
+                            } else {
+                                println("not successful: ${res.status}, ${res.details}")
+                            }
+
+
+                        } else {
+                            try {
+                                val error = response.errorBody()!!.string()
+                                println("error " + error)
+                            } catch (e: IOException) {
+                                Log.e("NIKSIPIRKKA", "Bad response: $e")
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseMsg>, t: Throwable) {
+                        Log.e("NIKSIPIRKKA", "Failure: $t")
+                    }
+                })
                 findNavController(view).navigate(
                     R.id.action_addFrag_to_showFrag
                 )

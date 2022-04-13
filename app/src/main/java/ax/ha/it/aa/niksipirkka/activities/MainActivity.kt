@@ -18,6 +18,7 @@ import ax.ha.it.aa.niksipirkka.databinding.ActivityMainBinding
 import ax.ha.it.aa.niksipirkka.entities.Advice
 import ax.ha.it.aa.niksipirkka.entities.AdviceWithCategory
 import ax.ha.it.aa.niksipirkka.entities.Category
+import ax.ha.it.aa.niksipirkka.entities.ResponseMsg
 import ax.ha.it.aa.niksipirkka.services.AdviceService
 import retrofit2.Call
 import retrofit2.Callback
@@ -126,6 +127,9 @@ class MainActivity : AppCompatActivity() {
         }
         fun getRetrofitAdviceCall(): Call<List<AdviceWithCategory>> {
             return service.loadAdvice()
+        }
+        fun pushRetrofitAdviceCall(author: String, content: String, category: String): Call<ResponseMsg> {
+            return service.pushAdvice(author,content,category)
         }
     }
     fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
