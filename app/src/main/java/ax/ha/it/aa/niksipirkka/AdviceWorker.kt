@@ -31,7 +31,7 @@ class AdviceWorker(context: Context, params: WorkerParameters) : Worker(context,
             // Create an explicit intent for an Activity in your app
             val categories = repo.categories
             response.body()?.forEach { repo.insertAdvice(it) }
-            val intent = Intent(applicationContext, NotificationActivity::class.java)
+            val intent = Intent(applicationContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)
 

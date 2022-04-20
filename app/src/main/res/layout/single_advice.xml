@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-        xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/card"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:cardElevation="10dp" app:cardBackgroundColor="#008b8b">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -11,18 +13,26 @@
             android:orientation="vertical"
             android:padding="6dp">
 
-            <TextView
-                    android:text="author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/adviceAuthor" android:layout_weight="2"/>
-            <TextView
-                    android:text="category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/adviceCategory" android:layout_weight="2"/>
-            <TextView
-                    android:text="content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/adviceContent" android:layout_weight="2"/>
+        <TextView
+                android:text="category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/adviceCategory" android:layout_weight="2"
+                android:textStyle="bold" android:textColor="#263238"/>
+        <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_weight="2" android:layout_marginBottom="5dp"/>
+        <TextView
+                android:text="content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/adviceContent" android:layout_weight="2"/>
+        <TextView
+                android:text="author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/adviceAuthor" android:layout_weight="2"
+                android:textStyle="italic" android:layout_marginTop="5dp"/>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

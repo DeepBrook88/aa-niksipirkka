@@ -23,4 +23,7 @@ interface CategoryDao {
 
     @Query("SELECT * FROM categories")
     fun getAllCategoriesNoLive(): List<Category>
+
+    @Query("SELECT category_id FROM categories WHERE category = :category")
+    fun getCategoryIdByString(category: String): Int
 }

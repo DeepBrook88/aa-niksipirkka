@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/ShowFragment"
         android:name="ax.ha.it.aa.niksipirkka.fragments.ShowFragment"
-        android:label="fragment_test"
+        android:label="@string/mainTitleText"
         tools:layout="@layout/fragment_show">
         <action
                 android:id="@+id/action_showFrag_to_addFrag"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/testFragment2"
         android:name="ax.ha.it.aa.niksipirkka.fragments.AddFragment"
-        android:label="fragment_test2"
+        android:label="@string/mainTitleText"
         tools:layout="@layout/fragment_add">
         <action
                 android:id="@+id/action_addFrag_to_showFrag"

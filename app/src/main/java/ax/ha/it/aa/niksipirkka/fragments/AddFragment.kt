@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -45,14 +46,17 @@ class AddFragment : Fragment() {
             val list: Array<Category> = it.toTypedArray()
             val spinnerAdapter: ArrayAdapter<Category> = ArrayAdapter(
                 binding.root.context,
-                android.R.layout.simple_spinner_item,
+                R.layout.spinner_item,
                 list
             )
-            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinner.adapter = spinnerAdapter
+            val adapter = ArrayAdapter(requireContext(),R.layout.spinner_item,list)
+            val textField = binding.categoryMenu
+            (textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
+            spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             val cate: String = sharedPreferences.getString("default_category","1")!!
             println("cate: $cate")
-            binding.spinner.setSelection(cate.toInt())
+            (textField?.editText as? AutoCompleteTextView)?.setText(list[cate.toInt()].getCategory(),false)
         }
 
         Thread {
@@ -70,16 +74,16 @@ class AddFragment : Fragment() {
         ) {
             binding.button2.setOnClickListener { view ->
                 val content: String = binding.contentData.text.toString()
-                val cat: Category = binding.spinner.selectedItem as Category
-                val category: String = cat.getCategory()
-                val curVal : String? = sharedPreferences.getString("author_name", "Anonymous")
-                val advice = AdviceWithCategory(curVal!!, content, category)
+                val category: String = (binding.categoryMenu?.editText as AutoCompleteTextView).text.toString()
+                val author : String = sharedPreferences.getString("author_name", "Anonymous").toString()
+                val advice = AdviceWithCategory(category, content, author)
                 pushAdviceToServer(advice, model)
                 findNavController(view).navigate(
                     R.id.action_addFrag_to_showFrag
                 )
             }
         }
+
         // Inflate the layout for this fragment
         return binding.root
     }

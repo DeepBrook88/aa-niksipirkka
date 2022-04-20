@@ -15,11 +15,11 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
     private val advices: LiveData<List<AdviceWithCategory>>
     private val categories: LiveData<List<Category>>
 
-    private val catDao: CategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.categoryDao()
-    private val adviceDao: AdviceDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceDao()
-    private val adviceWithCategoryDao: AdviceWithCategoryDao = AdviceDatabase.getInstance(application.applicationContext)!!.adviceWithCat()
-    
-    private val repository: NiksiPirkkaRepo = NiksiPirkkaRepo(adviceDao,catDao,adviceWithCategoryDao)
+    private val repository: NiksiPirkkaRepo = NiksiPirkkaRepo(
+        AdviceDatabase.getInstance(application.applicationContext)!!.adviceDao(),
+        AdviceDatabase.getInstance(application.applicationContext)!!.categoryDao(),
+        AdviceDatabase.getInstance(application.applicationContext)!!.adviceWithCat()
+    )
 
     init {
         advices = repository.advices
@@ -37,9 +37,6 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
     }
     fun addCategory(vararg category: Category?) {
         repository.insertCategory(*category)
-    }
-    fun getAllCategories(): Map<String,Int> {
-        return repository.getCategories()
     }
 
 }

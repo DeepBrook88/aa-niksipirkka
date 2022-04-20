@@ -30,7 +30,7 @@ class AdviceAdapter(private val advices:List<AdviceWithCategory>): RecyclerView.
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         val advice : AdviceWithCategory = advices[position]
-        holder.binding.adviceAuthor.text = advice.author
+        holder.binding.adviceAuthor.text = "Submitted by: ${advice.author}"
         holder.binding.adviceCategory.text = advice.category
         holder.binding.adviceContent.text = advice.content
     }

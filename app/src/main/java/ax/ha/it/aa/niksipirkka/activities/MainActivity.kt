@@ -16,7 +16,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.work.*
 import ax.ha.it.aa.niksipirkka.AdviceWorker
@@ -45,37 +48,48 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
+
+        val fragmentManager = supportFragmentManager
+        val navHostFragment = fragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment?
+        val navController = navHostFragment!!.navController
+
+        val appBarConfiguration: AppBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
+        setupWithNavController(
+            binding.mainToolbar, navController, appBarConfiguration
+        )
+
         createNotificationChannel()
         model = ViewModelProvider(this)[MyViewModel::class.java]
         if (!isConnectedToNetwork(this)) {
             Toast.makeText(this, "No network!", Toast.LENGTH_SHORT).show()
         } else {
             getCategoriesFromServer()
-            getAdviceFromServer()
-            val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-            val state = prefs.getBoolean("switch_refresh",false)
-            val duration: Long = prefs.getInt("refreshInterval",15).toLong()
+            //getAdviceFromServer()
+            val sharedPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+            val state = sharedPrefs.getBoolean("switch_refresh",false)
+            val duration: Long = sharedPrefs.getInt("refreshInterval",15).toLong()
             val workName = "AUTO_REFRESH"
             val workManager = WorkManager.getInstance(this@MainActivity)
             if (state) {
                 worker(duration, workManager, workName)
-                println("pre started")
             }
             listener = OnSharedPreferenceChangeListener {prefs, key ->
-                println("in func")
                 if (key == "switch_refresh") {
                     val stateRefresh = prefs.getBoolean("switch_refresh", false)
                     if (stateRefresh) {
                         worker(duration, workManager, workName)
-                        println("True")
                     } else {
                         workManager.cancelUniqueWork(workName)
-                        println("False")
                     }
                 }
             }
-            prefs.registerOnSharedPreferenceChangeListener(listener)
+            sharedPrefs.registerOnSharedPreferenceChangeListener(listener)
         }
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        getAdviceFromServer()
     }
 
     private fun worker(duration: Long, workManager: WorkManager, workName: String) {

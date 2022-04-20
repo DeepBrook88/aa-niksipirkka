@@ -5,7 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.ShowFragment">
+        tools:context=".fragments.ShowFragment" android:background="#40444B">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -16,8 +16,8 @@
             android:contentDescription="@string/fab_content_desc"
             app:srcCompat="@drawable/ic_baseline_add_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:backgroundTint="#C80808" app:rippleColor="#FFFFFF"
-            app:tint="@color/white"/>
+            app:layout_constraintEnd_toEndOf="parent" android:backgroundTint="#C80808"
+            app:tint="@color/white" app:elevation="15dp"/>
     <TextView
             android:text="@string/showList"
             android:layout_width="wrap_content"
@@ -27,16 +27,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="20dp"
-            android:textSize="20sp"/>
+            android:textSize="30sp" android:textStyle="bold"
+            android:elevation="15dp"
+            android:textColor="#DCDDDE"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
-            android:layout_height="530dp"
+            android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintHorizontal_bias="1.0" android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/mainTitle"/>
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle"
+            android:paddingBottom="20dp" app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
