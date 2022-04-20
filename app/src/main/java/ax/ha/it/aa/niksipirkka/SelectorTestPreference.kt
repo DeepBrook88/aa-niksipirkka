@@ -8,14 +8,14 @@ import ax.ha.it.aa.niksipirkka.entities.Category
 
 class SelectorTestPreference(context: Context, attrs: AttributeSet): ListPreference(context, attrs) {
     private val catDao = AdviceDatabase.getInstance(context)!!.categoryDao()
-    private val categories: MutableLiveData<List<Category>> = MutableLiveData()
+    private var categories: MutableLiveData<List<Category>> = MutableLiveData()
     init {
         //val map: MutableMap<String, String> = mutableMapOf()
         val names = mutableListOf<String>()
         val ids = mutableListOf<String>()
-        catDao.getAllCategories().observeForever{
+        catDao.getAllCategories()?.observeForever{
             categories.value = it
-            categories.value!!.toTypedArray().forEachIndexed {idx, item -> names.add(item.getCategory()); ids.add(idx.toString())}
+            categories.value?.forEachIndexed {idx, item -> names.add(item.getCategory()); ids.add(idx.toString())}
             entries = names.toTypedArray()
             entryValues = ids.toTypedArray()
             setDefaultValue(entries[0])

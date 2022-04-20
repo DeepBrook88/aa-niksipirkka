@@ -24,12 +24,11 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
     init {
         advices = repository.advices
         categories = repository.categories
-
     }
     fun getAdvices(): LiveData<List<AdviceWithCategory>> {
         return advices
     }
-    fun addAdvice(advice: Advice) = viewModelScope.launch {
+    fun addAdvice(advice: AdviceWithCategory) = viewModelScope.launch {
         repository.insertAdvice(advice)
     }
 
@@ -39,4 +38,8 @@ class MyViewModel(application: Application, savedStateHandle: SavedStateHandle) 
     fun addCategory(vararg category: Category?) {
         repository.insertCategory(*category)
     }
+    fun getAllCategories(): Map<String,Int> {
+        return repository.getCategories()
+    }
+
 }

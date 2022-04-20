@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent" android:backgroundTint="#C80808" app:rippleColor="#FFFFFF"
             app:tint="@color/white"/>
     <TextView
-            android:text="@string/mainTitleText"
+            android:text="@string/showList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/mainTitle"

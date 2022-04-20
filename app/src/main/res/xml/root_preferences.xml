@@ -13,5 +13,22 @@
                 app:key="default_category"
                 />
     </PreferenceCategory>
+    <PreferenceCategory
+            app:title="Preference category">
+
+        <SwitchPreferenceCompat
+                app:defaultValue="false"
+                app:title="Switch preference"
+                app:key="switch_refresh"/>
+        <SeekBarPreference
+                android:defaultValue="60"
+                android:key="refreshInterval"
+                app:min="15"
+                android:max="3600"
+                app:showSeekBarValue="true"
+                app:seekBarIncrement="300"
+                app:dependency="switch_refresh"
+        />
+    </PreferenceCategory>
 
 </PreferenceScreen>

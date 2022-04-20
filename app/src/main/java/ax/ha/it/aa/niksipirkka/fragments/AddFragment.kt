@@ -40,9 +40,10 @@ class AddFragment : Fragment() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context!!)
         setupUI(binding.root)
         val model = ViewModelProvider(requireActivity())[MyViewModel::class.java]
+
         model.getCategories().observe(viewLifecycleOwner) {
             val list: Array<Category> = it.toTypedArray()
-            val spinnerAdapter : ArrayAdapter<Category> = ArrayAdapter(
+            val spinnerAdapter: ArrayAdapter<Category> = ArrayAdapter(
                 binding.root.context,
                 android.R.layout.simple_spinner_item,
                 list
@@ -53,6 +54,7 @@ class AddFragment : Fragment() {
             println("cate: $cate")
             binding.spinner.setSelection(cate.toInt())
         }
+
         Thread {
             try {
                 Thread.sleep(1000)
@@ -69,36 +71,10 @@ class AddFragment : Fragment() {
             binding.button2.setOnClickListener { view ->
                 val content: String = binding.contentData.text.toString()
                 val cat: Category = binding.spinner.selectedItem as Category
-                val category: Int = cat.getCategoryId()
+                val category: String = cat.getCategory()
                 val curVal : String? = sharedPreferences.getString("author_name", "Anonymous")
-                val advice = Advice(curVal!!, content, category)
-                val pushAdvCall: Call<ResponseMsg> = MainActivity.pushRetrofitAdviceCall(advice.getAuthor(),advice.getContent(),cat.getCategory())
-                pushAdvCall.enqueue(object: Callback<ResponseMsg> {
-                    override fun onResponse(call: Call<ResponseMsg>, response: Response<ResponseMsg>) {
-                        if (response.isSuccessful) {
-                            val res: ResponseMsg = response.body()!!
-                            if (res.status == "OK") {
-                                model.addAdvice(advice)
-                                println("Succesful")
-                            } else {
-                                println("not successful: ${res.status}, ${res.details}")
-                            }
-
-
-                        } else {
-                            try {
-                                val error = response.errorBody()!!.string()
-                                println("error " + error)
-                            } catch (e: IOException) {
-                                Log.e("NIKSIPIRKKA", "Bad response: $e")
-                            }
-                        }
-                    }
-
-                    override fun onFailure(call: Call<ResponseMsg>, t: Throwable) {
-                        Log.e("NIKSIPIRKKA", "Failure: $t")
-                    }
-                })
+                val advice = AdviceWithCategory(curVal!!, content, category)
+                pushAdviceToServer(advice, model)
                 findNavController(view).navigate(
                     R.id.action_addFrag_to_showFrag
                 )
@@ -106,6 +82,40 @@ class AddFragment : Fragment() {
         }
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun pushAdviceToServer(
+        advice: AdviceWithCategory,
+        model: MyViewModel
+    ) {
+        val pushAdvCall: Call<ResponseMsg> =
+            MainActivity.pushRetrofitAdviceCall(advice.author, advice.content, advice.category)
+        pushAdvCall.enqueue(object : Callback<ResponseMsg> {
+            override fun onResponse(call: Call<ResponseMsg>, response: Response<ResponseMsg>) {
+                if (response.isSuccessful) {
+                    val res: ResponseMsg = response.body()!!
+                    if (res.status == "OK") {
+                        model.addAdvice(advice)
+                        println("Succesful")
+                    } else {
+                        println("not successful: ${res.status}, ${res.details}")
+                    }
+
+
+                } else {
+                    try {
+                        val error = response.errorBody()!!.string()
+                        println("error " + error)
+                    } catch (e: IOException) {
+                        Log.e("NIKSIPIRKKA", "Bad response: $e")
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseMsg>, t: Throwable) {
+                Log.e("NIKSIPIRKKA", "Failure: $t")
+            }
+        })
     }
 
     private fun setupUI(view: View) {

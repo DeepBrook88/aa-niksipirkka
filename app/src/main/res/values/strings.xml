@@ -6,6 +6,8 @@
     <string name="button_2">Add Advice</string>
     <string name="mainTitleText">Niksi Pirkka</string>
     <string name="fab_content_desc">Add new advice</string>
+    <string name="showList">Advices</string>
+    <string name="addAdvice">Add a new advice</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Settings</string>
@@ -22,4 +24,5 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="settingsBar">Niksi-Pirkka settings</string>
+
 </resources>

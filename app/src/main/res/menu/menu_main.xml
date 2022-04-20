@@ -3,6 +3,8 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="ax.ha.it.menudemo.MainActivity">
+    <item android:id="@+id/refreshAdvice" android:title="refresh"
+          android:icon="@drawable/ic_baseline_refresh_24" app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_with_icon" android:title="icon"
           android:icon="@drawable/baseline_settings_24" app:showAsAction="ifRoom"/>
 
