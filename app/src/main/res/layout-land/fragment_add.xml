@@ -17,6 +17,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="20dp"
             android:textSize="30sp" android:textStyle="bold" android:textColor="#DCDDDE"/>
+
     <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
@@ -25,17 +26,8 @@
             android:text="@string/button_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="136dp" app:layout_constraintTop_toBottomOf="@+id/mainTitle2"/>
-    <Spinner
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner"
-            android:layout_marginTop="44dp"
             app:layout_constraintTop_toBottomOf="@+id/mainTitle2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:minHeight="48dp"
-            android:textColor="#DCDDDE" app:layout_constraintHorizontal_bias="0.748"/>
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.617"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,8 +35,30 @@
             android:ems="10"
             android:id="@+id/contentData"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="44dp"
-            app:layout_constraintHorizontal_bias="0.257" android:minHeight="48dp"
-            app:layout_constraintTop_toBottomOf="@+id/mainTitle2" android:textColor="#DCDDDE"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.232"
+            android:minHeight="48dp"
+            android:textColor="#DCDDDE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainTitle2"
+            app:layout_constraintVertical_bias="0.3"
+    />
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/categoryMenu"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/category_label" app:layout_constraintTop_toBottomOf="@+id/mainTitle2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/contentData"
+            app:layout_constraintVertical_bias="0.28"
+            app:layout_constraintHorizontal_bias="0.232" app:layout_constraintBottom_toBottomOf="parent">
+        <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

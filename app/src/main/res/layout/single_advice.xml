@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardElevation="10dp" app:cardBackgroundColor="#008b8b">
+        app:cardElevation="10dp" app:cardBackgroundColor="?attr/colorSecondary">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
                 android:text="category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/adviceCategory" android:layout_weight="2"
-                android:textStyle="bold" android:textColor="#263238"/>
+                android:textStyle="bold" android:textColor="?attr/colorOnSecondary"/>
         <View
                 android:id="@+id/divider3"
                 android:layout_width="match_parent"
@@ -27,12 +27,14 @@
         <TextView
                 android:text="content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/adviceContent" android:layout_weight="2"/>
+                android:layout_height="wrap_content" android:id="@+id/adviceContent" android:layout_weight="2"
+                android:textColor="?attr/colorOnSecondaryContainer"/>
         <TextView
                 android:text="author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/adviceAuthor" android:layout_weight="2"
-                android:textStyle="italic" android:layout_marginTop="5dp"/>
+                android:textStyle="italic" android:layout_marginTop="5dp"
+                android:textColor="?attr/colorOnSecondaryContainer"/>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

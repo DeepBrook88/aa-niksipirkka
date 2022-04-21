@@ -5,7 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.ShowFragment" android:background="#40444B">
+        tools:context=".fragments.ShowFragment"
+        android:background="?attr/colorOnBackground">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -29,7 +30,7 @@
             android:layout_marginTop="20dp"
             android:textSize="30sp" android:textStyle="bold"
             android:elevation="15dp"
-            android:textColor="#DCDDDE"/>
+            android:textColor="?attr/colorOnPrimary"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"

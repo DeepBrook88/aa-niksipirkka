@@ -17,7 +17,6 @@ class NiksiPirkkaRepo(
 ) {
     val advices: LiveData<List<AdviceWithCategory>> = adviceWithCategoryDao.getAdviceWithCategoryString()
     val categories: LiveData<List<Category>> = categoryDao.getAllCategories()
-    val test: MutableMap<String, Int> = mutableMapOf()
 
     fun insertAdvice(advice: AdviceWithCategory) {
         Thread{

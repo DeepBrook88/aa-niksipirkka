@@ -51,12 +51,12 @@ class AddFragment : Fragment() {
             )
             val adapter = ArrayAdapter(requireContext(),R.layout.spinner_item,list)
             val textField = binding.categoryMenu
-            (textField?.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+            (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
             spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             val cate: String = sharedPreferences.getString("default_category","1")!!
             println("cate: $cate")
-            (textField?.editText as? AutoCompleteTextView)?.setText(list[cate.toInt()].getCategory(),false)
+            (textField.editText as? AutoCompleteTextView)?.setText(list[cate.toInt()].getCategory(),false)
         }
 
         Thread {
@@ -74,7 +74,7 @@ class AddFragment : Fragment() {
         ) {
             binding.button2.setOnClickListener { view ->
                 val content: String = binding.contentData.text.toString()
-                val category: String = (binding.categoryMenu?.editText as AutoCompleteTextView).text.toString()
+                val category: String = (binding.categoryMenu.editText as AutoCompleteTextView).text.toString()
                 val author : String = sharedPreferences.getString("author_name", "Anonymous").toString()
                 val advice = AdviceWithCategory(category, content, author)
                 pushAdviceToServer(advice, model)

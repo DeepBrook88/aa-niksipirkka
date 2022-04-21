@@ -17,20 +17,24 @@ import retrofit2.Response
 import java.io.IOException
 import android.R
 import ax.ha.it.aa.niksipirkka.entities.Advice
+import ax.ha.it.aa.niksipirkka.entities.Category
 import ax.ha.it.aa.niksipirkka.repository.NiksiPirkkaRepo
 
 class AdviceWorker(context: Context, params: WorkerParameters) : Worker(context,params){
     override fun doWork(): Result {
         val call: Call<List<AdviceWithCategory>> = MainActivity.getRetrofitAdviceCall()
+        val call2: Call<List<Category>> = MainActivity.getRetrofitCategoryCall()
         try {
             val response: Response<List<AdviceWithCategory>> = call.execute()
-            //val model : MyViewModel = inputData.keyValueMap["model"] as MyViewModel
+            val categoryRes: Response<List<Category>> = call2.execute()
+
             val db = AdviceDatabase.getInstance(applicationContext)
             val repo = NiksiPirkkaRepo(db?.adviceDao()!!,db.categoryDao(),db.adviceWithCat())
-            //val test = Transformations.map(model.getCategories(),{it.size})
-            // Create an explicit intent for an Activity in your app
-            val categories = repo.categories
+
+            categoryRes.body()?.let { repo.insertCategory(*it.toTypedArray()) }
             response.body()?.forEach { repo.insertAdvice(it) }
+
+            // Create an explicit intent for an Activity in your app
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, 0)

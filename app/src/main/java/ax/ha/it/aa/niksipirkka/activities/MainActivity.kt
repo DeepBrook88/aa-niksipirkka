@@ -60,11 +60,15 @@ class MainActivity : AppCompatActivity() {
 
         createNotificationChannel()
         model = ViewModelProvider(this)[MyViewModel::class.java]
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
         if (!isConnectedToNetwork(this)) {
             Toast.makeText(this, "No network!", Toast.LENGTH_SHORT).show()
         } else {
             getCategoriesFromServer()
-            //getAdviceFromServer()
+            getAdviceFromServer()
             val sharedPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
             val state = sharedPrefs.getBoolean("switch_refresh",false)
             val duration: Long = sharedPrefs.getInt("refreshInterval",15).toLong()
@@ -87,17 +91,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        getAdviceFromServer()
-    }
-
     private fun worker(duration: Long, workManager: WorkManager, workName: String) {
         val constraints: Constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
 
-        //println("input: " + inputData.keyValueMap["model"])
-        // create Data object with Data.Builder
-        // Note: minimum period between repeats is 15 minutes
         val myPeriodicWorkRequest: PeriodicWorkRequest =
             PeriodicWorkRequest.Builder(AdviceWorker::class.java, duration, TimeUnit.MINUTES)
                 .setConstraints(constraints)
@@ -178,6 +174,7 @@ class MainActivity : AppCompatActivity() {
             if (!isConnectedToNetwork(this)) {
                 Toast.makeText(this, "No network!", Toast.LENGTH_SHORT).show()
             } else  {
+                getCategoriesFromServer()
                 getAdviceFromServer()
             }
             return true
@@ -228,13 +225,5 @@ class MainActivity : AppCompatActivity() {
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
-    }
-    fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
-        observe(lifecycleOwner, object : Observer<T> {
-            override fun onChanged(t: T?) {
-                observer.onChanged(t)
-                removeObserver(this)
-            }
-        })
     }
 }

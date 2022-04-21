@@ -10,10 +10,9 @@ class SelectorTestPreference(context: Context, attrs: AttributeSet): ListPrefere
     private val catDao = AdviceDatabase.getInstance(context)!!.categoryDao()
     private var categories: MutableLiveData<List<Category>> = MutableLiveData()
     init {
-        //val map: MutableMap<String, String> = mutableMapOf()
         val names = mutableListOf<String>()
         val ids = mutableListOf<String>()
-        catDao.getAllCategories()?.observeForever{
+        catDao.getAllCategories().observeForever{
             categories.value = it
             categories.value?.forEachIndexed {idx, item -> names.add(item.getCategory()); ids.add(idx.toString())}
             entries = names.toTypedArray()

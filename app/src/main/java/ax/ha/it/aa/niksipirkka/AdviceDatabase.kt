@@ -10,11 +10,8 @@ import ax.ha.it.aa.niksipirkka.dao.CategoryDao
 import ax.ha.it.aa.niksipirkka.entities.Advice
 import ax.ha.it.aa.niksipirkka.entities.Category
 
-
-@Database(entities = [Advice::class, Category::class], version = 50, exportSchema = false)
+@Database(entities = [Advice::class, Category::class], version = 53, exportSchema = false)
 abstract class AdviceDatabase : RoomDatabase() {
-    //abstract val adviceDao: AdviceDao
-    //abstract val categoryDao: CategoryDao
     abstract fun adviceDao(): AdviceDao
     abstract fun categoryDao(): CategoryDao
     abstract fun adviceWithCat(): AdviceWithCategoryDao
